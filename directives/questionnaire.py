@@ -265,6 +265,12 @@ class Choice(QuestionMixin, Directive):
     required_arguments = 0
     optional_arguments = 1
     final_argument_whitespace = False
+    option_spec = {
+        'class' : directives.class_option,
+        'required': directives.flag,
+        'key': directives.unchanged,
+        'partial-points': directives.unchanged
+    }
 
     def run(self):
         self.assert_has_content()
@@ -299,6 +305,8 @@ class Choice(QuestionMixin, Directive):
         env, node, data = self.create_question()
         self.add_instructions(node, data, plain_content)
         data[u'options'] = (u'#!children', u'option')
+        if 'partial-points' in self.options:
+            data['partial_points'] = True
 
         # Travel all answer options.
         for i,line in slicer(choices):
@@ -312,6 +320,9 @@ class Choice(QuestionMixin, Directive):
             correct = False
             if key.startswith(u'*'):
                 correct = True
+                key = key[1:]
+            if key.startswith(u'?'):
+                correct = "neutral"
                 key = key[1:]
             if key.endswith(u'.'):
                 key = key[:-1]
@@ -338,7 +349,7 @@ class Choice(QuestionMixin, Directive):
                 u'label': (u'#!html', u'label'),
             }
             if correct:
-                optdata[u'correct'] = True
+                optdata[u'correct'] = correct
             choice.set_yaml(optdata, u'option')
 
         self.add_feedback(node, data, feedback)
@@ -387,7 +398,6 @@ class FreeText(QuestionMixin, Directive):
         'no-standard-prompt': directives.flag,
         'shorter-prompt': directives.flag,
         'class': directives.class_option,
-        'required': directives.flag,
         'key': directives.unchanged,
         'extra': directives.unchanged,
     }
