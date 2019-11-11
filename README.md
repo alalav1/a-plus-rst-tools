@@ -226,6 +226,7 @@ even if the max points aren't defined in the argument. The questionnaire directi
   the user submits, but persists without changes if the user just reloads the web page.
 * `category`: exercise category
 * `status`: exercise status (default "unlisted"). See available [statuses](#list-of-exercise-statuses).
+* `show_correct_once`: Show the model answer after last submission.
 * `allow-assistant-viewing`: Allows assistants to view the submissions of the students.
   Can be set to true or false. Overrides any options set in the conf.py or config.yaml files.
 * `allow-assistant-grading`: Allows assistants to grade the submissions of the students.

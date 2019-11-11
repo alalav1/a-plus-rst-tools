@@ -120,13 +120,13 @@ class Questionnaire(AbstractExercise):
                 u'fields': (u'#!children', None),
             }],
         }
-<<<<<<< HEAD
+
         if 'show-correct-once' in self.options:
             tobool = {'true': True, 'false': False}
             data['show_correct_once'] = tobool[self.options['show-correct-once']]
         else:
             data['show_correct_once'] = env.config.show_correct_once
-=======
+
         if env.aplus_pick_randomly_quiz:
             pick_randomly = self.options.get('pick_randomly', 0)
             if pick_randomly < 1:
@@ -143,7 +143,6 @@ class Questionnaire(AbstractExercise):
             # values, hence the attribute must not be used in randomized
             # questionnaires.
             node.attributes['data-aplus-quiz'] = 'yes'
->>>>>>> Add randomized pick-any question and fix pick_randomly (#51)
 
         self.set_assistant_permissions(data)
 
