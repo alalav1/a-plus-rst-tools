@@ -35,6 +35,7 @@ class Questionnaire(AbstractExercise):
         'title': directives.unchanged,
         'category': directives.unchanged,
         'status': directives.unchanged,
+        'show-correct-once': choice_truefalse,
         'allow-assistant-viewing': choice_truefalse,
         'allow-assistant-grading': choice_truefalse,
     }
@@ -119,6 +120,12 @@ class Questionnaire(AbstractExercise):
                 u'fields': (u'#!children', None),
             }],
         }
+        if 'show-correct-once' in self.options:
+            tobool = {'true': True, 'false': False}
+            data['show_correct_once'] = tobool[self.options['show-correct-once']]
+        else:
+            data['show_correct_once'] = env.config.show_correct_once
+
         self.set_assistant_permissions(data)
 
         points_set_in_arguments = len(self.arguments) == 2 and difficulty != self.arguments[1]
