@@ -35,7 +35,7 @@ class Questionnaire(AbstractExercise):
         'title': directives.unchanged,
         'category': directives.unchanged,
         'status': directives.unchanged,
-        'show-correct-once': choice_truefalse,
+        'reveal-answer': choice_truefalse,
         'allow-assistant-viewing': choice_truefalse,
         'allow-assistant-grading': choice_truefalse,
     }
@@ -121,11 +121,12 @@ class Questionnaire(AbstractExercise):
             }],
         }
 
-        if 'show-correct-once' in self.options:
-            tobool = {'true': True, 'false': False}
-            data['show_correct_once'] = tobool[self.options['show-correct-once']]
+        tobool = {'true': True, 'false': False}
+        meta_data = env.metadata[env.app.config.master_doc]
+        if 'reveal-answer' in self.options:
+            data['reveal_answer'] = tobool[self.options['reveal-answer']]
         else:
-            data['show_correct_once'] = env.config.show_correct_once
+            data['reveal_answer'] = tobool[meta_data.get('reveal_answer', 'false')]
 
         if env.aplus_pick_randomly_quiz:
             pick_randomly = self.options.get('pick_randomly', 0)
